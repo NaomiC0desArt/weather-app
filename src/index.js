@@ -132,8 +132,16 @@ function populateSearchBar(info) {
 
 
 async function initApp() {
-  const data = await getWeatherInfo("Santo Domingo,DO");
-  if (data) populateView(data);
+   try {
+    const data = await getWeatherInfo("Santo Domingo,DO");
+    if (!data) {
+      console.error("API returned no data");
+      return;
+    }
+    populateView(data);
+  } catch (e) {
+    console.error("initApp failed:", e);
+  }
 }
 
 initApp();
