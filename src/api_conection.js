@@ -18,9 +18,7 @@ async function getWeatherInfo(location) {
       throw new WeatherApiError("api", `API error: ${response.status}`);
     }
 
-    const data = await response.json();
-
-    return data;
+    return await response.json();
   } catch (e) {
     if (e instanceof WeatherApiError) throw e;
 
