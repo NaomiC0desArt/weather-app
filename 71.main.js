@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkboilerplate=self.webpackChunkboilerplate||[]).push([[71],{71(e,s,p){e.exports=p.p+"assets/icons/thunder.svg"}}]);

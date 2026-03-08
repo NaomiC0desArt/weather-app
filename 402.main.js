@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkboilerplate=self.webpackChunkboilerplate||[]).push([[402],{402(s,e,p){s.exports=p.p+"assets/icons/snow.svg"}}]);

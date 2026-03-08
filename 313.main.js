@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkboilerplate=self.webpackChunkboilerplate||[]).push([[313],{313(e,s,l){e.exports=l.p+"assets/icons/hail.svg"}}]);

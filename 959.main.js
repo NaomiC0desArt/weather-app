@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkboilerplate=self.webpackChunkboilerplate||[]).push([[959],{959(e,s,l){e.exports=l.p+"assets/icons/clear-night.svg"}}]);
