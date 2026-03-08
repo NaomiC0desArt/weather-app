@@ -339,7 +339,7 @@ form {
   display: flex;
   gap: 20px;
   width: 90%;
-  max-width: 770px; 
+  max-width: 770px;
   align-items: flex-start;
 }
 
@@ -350,6 +350,84 @@ form {
   display: none;
 }
 
-.hour{
+.hour {
   font-weight: bold;
+}
+
+.status-message {
+  position: fixed;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 28px;
+  border-radius: 14px;
+  background-color: hsla(79, 44%, 7%, 0.75);
+  backdrop-filter: blur(16px);
+  color: var(--letter-primary-color);
+  text-align: center;
+  z-index: 100;
+  animation: slideUp 0.25s ease;
+}
+
+.status-message p {
+  margin: 0;
+  font-size: 14px;
+}
+
+.status-loading {
+  flex-direction: row;
+  gap: 12px;
+}
+
+.status-error .status-title {
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.status-error .status-sub {
+  font-size: 13px;
+  opacity: 0.75;
+}
+
+.status-icon {
+  font-size: 28px;
+  opacity: 0.85;
+}
+
+
+.status-spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  border-top-color: var(--letter-primary-color);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+.weather-info-container,
+.weather-by-day-container,
+.hourly-card {
+  transition: opacity 0.3s ease;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
 }

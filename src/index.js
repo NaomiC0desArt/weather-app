@@ -1,5 +1,5 @@
 import "./style.css";
-import { getWeatherInfo } from "./api_conection";
+import { getWeatherInfo, WeatherApiError } from "./api_conection";
 import { formatWeatherData } from "./dataCleaner";
 import {
   createWeatherCard,
@@ -9,6 +9,8 @@ import {
 } from "./ui";
 import { obtainLocation } from "./location";
 import { fetchLocationSuggestions } from "./autocomplete";
+import { showLoading, showError, clearStatus } from "./ui-states";
+import { saveLastCity, loadLastCity } from "./storage";
 
 //state for cel or far
 let currentUnit = "C";
@@ -29,10 +31,8 @@ searchIcon.addEventListener("click", async () => {
   const query = searchBar.value.trim();
   if (query === "") return;
 
-  const data = await getWeatherInfo(query);
-  if (data) {
-    populateView(data);
-  }
+  clearSuggestions();
+  await fetchAndRender(query);
 });
 
 searchBar.addEventListener("keypress", (e) => {
@@ -63,11 +63,9 @@ searchBar.addEventListener("change", () => {
   const selected = currentSuggestions.find((s) => s.label === searchBar.value);
 
   if (selected) {
-    searchBar.value = selected.label; 
+    searchBar.value = selected.label;
     clearSuggestions();
-    getWeatherInfo(selected.value).then((data) => {
-      if (data) populateView(data);
-    });
+    fetchAndRender(selected.value);
   }
 });
 
@@ -88,23 +86,13 @@ function clearSuggestions() {
 
 //geolocation
 getLocation.addEventListener("click", async () => {
-  const data = await obtainLocation();
-  let city = "Santo Domingo Sur";
-  let country = "DO";
+  const locationData = await obtainLocation();
+  const city = locationData?.location?.city ?? "Santo Domingo Sur";
+  const country = locationData?.location?.country ?? "DO";
+  const query = `${city},${country}`;
 
-  if (data) {
-    console.log(data.location);
-    city = data.location.city;
-    country = data.location.country;
-
-    let location = `${city},${country}`;
-    populateSearchBar(location);
-    const dataWeather = await getWeatherInfo(location);
-    populateView(dataWeather);
-  } else {
-    const dataWeather = await getWeatherInfo(`${city},${country}`);
-    populateView(dataWeather);
-  }
+  searchBar.value = query;
+  await fetchAndRender(query);
 });
 
 //unit toggle
@@ -114,12 +102,30 @@ changeUnit.addEventListener("click", () => {
   renderView();
 });
 
+//render
+
+async function fetchAndRender(query) {
+  showLoading();
+
+  try {
+    const data = await getWeatherInfo(query);
+    saveLastCity(query);
+    populateView(data);
+    clearStatus();
+  } catch (e) {
+    const type = e instanceof WeatherApiError ? e.type : "network";
+    showError(type);
+    console.error("fetchAndRender:", e.message);
+  }
+}
+
 function populateView(data) {
-  lastWeatherData = formatWeatherData(data); 
+  lastWeatherData = formatWeatherData(data);
   renderView();
 }
 
 async function renderView() {
+  if (!lastWeatherData) return;
   setIndoContainer(lastWeatherData.today, currentUnit);
   createWeatherCard(lastWeatherData.nextDays, daysContainer, currentUnit);
   creadeHourlySideBar(lastWeatherData.hours, hourlyContainer, currentUnit);
@@ -130,18 +136,9 @@ function populateSearchBar(info) {
   searchBar.value = info;
 }
 
-
 async function initApp() {
-   try {
-    const data = await getWeatherInfo("Santo Domingo,DO");
-    if (!data) {
-      console.error("API returned no data");
-      return;
-    }
-    populateView(data);
-  } catch (e) {
-    console.error("initApp failed:", e);
-  }
+  const lastCity = loadLastCity() ?? "Santo Domingo,DO";
+  await fetchAndRender(lastCity);
 }
 
 initApp();
