@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkboilerplate=self.webpackChunkboilerplate||[]).push([[979],{979(e,s,l){e.exports=l.p+"assets/icons/partly-cloudy-day.svg"}}]);

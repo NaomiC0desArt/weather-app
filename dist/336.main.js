@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkboilerplate=self.webpackChunkboilerplate||[]).push([[336],{336(e,s,l){e.exports=l.p+"assets/icons/sleet.svg"}}]);

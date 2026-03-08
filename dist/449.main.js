@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkboilerplate=self.webpackChunkboilerplate||[]).push([[449],{449(e,s,p){e.exports=p.p+"assets/icons/wind.svg"}}]);

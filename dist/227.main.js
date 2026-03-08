@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkboilerplate=self.webpackChunkboilerplate||[]).push([[227],{227(e,s,a){e.exports=a.p+"assets/icons/clear-day.svg"}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkboilerplate=self.webpackChunkboilerplate||[]).push([[923],{923(e,s,l){e.exports=l.p+"assets/icons/cloudy.svg"}}]);
